@@ -1,0 +1,23 @@
+{
+    "keywords" : [
+        "yii2", "assets", "compress"
+    ],
+    "autoload" : {
+        "psr-4" : {
+            "ognyk\\loginblocker\\" : ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Bartosz Lewandowski",
+            "email": "ognykb@gmail.com"
+        }
+    ],
+    "name" : "ognyk/yii2-login-blocker",
+    "type" : "yii2-extension",
+    "description" : "Blocked login for few minutes after 3 wrong login times.",
+    "require" : {
+        "yiisoft/yii2": "~2.0.0",
+        "yiisoft/yii2-redis": "^2.0"
+    }
+}

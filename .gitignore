@@ -1,0 +1,8 @@
+# phpstorm project files
+.idea
+.buildpath
+.project
+.settings
+xml
+vendor
+composer.phar
