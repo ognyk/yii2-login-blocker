@@ -1,4 +1,4 @@
-# yii2-login-blocker
+# yii2-login-blocker (Not ready yet)
 
 Blocked login for few minutes after 3 wrong login times.
 
