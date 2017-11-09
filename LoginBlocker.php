@@ -6,9 +6,37 @@ use yii\base\Component;
 
 class LoginBlocker extends Component
 {
-    private $time = 300; // 5 min
+    /**
+     * Time to block in seconds (default 5 min)
+     *
+     * @var integer
+     */
+    private $time = 300;
     
+    
+    /**
+     * Number of wrong attempts (default 3 times)
+     *
+     * @var integer
+     */
     private $wrong_login_number = 3;
+    
+    
+    /**
+     * Implement parameters
+     *
+     * @param array $params
+     */
+    public function __construct($params = [])
+    {
+        if (isset($params['time'])) {
+            $this->time = $params['time'];
+        }
+        if (isset($params['wrong_login_number'])) {
+            $this->wrong_login_number = $params['wrong_login_number'];
+        }
+    }
+    
 
     /**
      * Block IP if wrong login or password
@@ -30,11 +58,10 @@ class LoginBlocker extends Component
         }
         
         Yii::$app->cache->set('login_blocker_' . $this->getIp(), $blocker, $this->time);
-        
-        echo var_dump($blocker);
-        
+
         return true;
     }
+    
     
     /**
      * Check if user can login
@@ -54,9 +81,15 @@ class LoginBlocker extends Component
         return true;
     }
     
+    
+    /**
+     * Get user IP
+     * 
+     * @return string
+     */
     private function getIp() 
     {
-        $ip = $_SERVER['HTTP_CLIENT_IP'] ? $_SERVER['HTTP_CLIENT_IP'] : ($_SERVER['HTTP_X_FORWARDE‌​D_FOR'] ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
+        $ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
         
         return $ip;
     }
