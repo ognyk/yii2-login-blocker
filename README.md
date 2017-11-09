@@ -35,16 +35,17 @@ like this:
     ]
     ```
 
-2. Use `loginBlocker`:
+2. Methods `loginBlocker`:
 
     ```php
-    /* check if can login */
+    /* Check if user can login */
     \Yii::$app->loginBlocker->check();
     
     /* Increment when wrong login or password */
     \Yii::$app->loginBlocker->block();
     ```
-    
+3. Use `loginBlocker`:
+
     ```php
     if (!\Yii::$app->loginBlocker->check()) {
         return ['error' => 'time_block'];
