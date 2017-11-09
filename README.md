@@ -28,7 +28,9 @@ like this:
     ```php
     'components' => [
         'loginBlocker' => [
-            'class' => '\ognyk\loginblocker\LoginBlocker'
+            'class' => '\ognyk\loginblocker\LoginBlocker',
+            'time' => 300,              //  optional
+            'wrong_login_number' => 3,  //  optional
         ]
     ]
     ```
@@ -36,6 +38,21 @@ like this:
 2. Use `loginBlocker`:
 
     ```php
-    echo \Yii::$app->loginBlocker->check();
-    echo \Yii::$app->loginBlocker->block();
+    /* check if can login */
+    \Yii::$app->loginBlocker->check();
+    
+    /* Increment when wrong login or password */
+    \Yii::$app->loginBlocker->block();
+    
+    if (!\Yii::$app->loginBlocker->check()) {
+        return ['error' => 'time_block'];
+    }
+    
+    if ($model->login()) {
+        // ... good action here
+    } else {
+        \Yii::$app->loginBlocker->block();
+        
+        return ['error' => 'wrong_credentials'];
+    }
     ```
