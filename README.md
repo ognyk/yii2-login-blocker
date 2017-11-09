@@ -43,7 +43,9 @@ like this:
     
     /* Increment when wrong login or password */
     \Yii::$app->loginBlocker->block();
+    ```
     
+    ```php
     if (!\Yii::$app->loginBlocker->check()) {
         return ['error' => 'time_block'];
     }
