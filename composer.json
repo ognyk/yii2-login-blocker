@@ -1,23 +1,24 @@
 {
-    "keywords" : [
-        "yii2", "assets", "compress"
-    ],
-    "autoload" : {
-        "psr-4" : {
-            "ognyk\\loginblocker\\" : ""
-        }
-    },
+    "name" : "ognyk/yii2-login-blocker",
+    "type" : "yii2-extension",
+    "description" : "Blocked/Ban login for few minutes after 3 wrong login times.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Bartosz Lewandowski",
             "email": "ognykb@gmail.com"
         }
     ],
-    "name" : "ognyk/yii2-login-blocker",
-    "type" : "yii2-extension",
-    "description" : "Blocked login for few minutes after 3 wrong login times.",
+    "keywords" : [
+        "yii2", "login", "block", "ban"
+    ],
     "require" : {
         "yiisoft/yii2": "~2.0.0",
         "yiisoft/yii2-redis": "^2.0"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "ognyk\\loginblocker\\" : ""
+        }
     }
 }

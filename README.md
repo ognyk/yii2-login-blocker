@@ -1,5 +1,9 @@
 # yii2-login-blocker (Not ready yet)
 
+[![Latest Stable Version](https://poser.pugx.org/ognyk/yii2-login-blocker/v/stable)](https://packagist.org/packages/ognyk/yii2-login-blocker)
+[![Total Downloads](https://poser.pugx.org/ognyk/yii2-login-blocker/downloads)](https://packagist.org/packages/ognyk/yii2-login-blocker)
+[![License](https://poser.pugx.org/ognyk/yii2-login-blocker/license)](https://packagist.org/packages/ognyk/yii2-login-blocker)
+
 Blocked login for few minutes after 3 wrong login times.
 
 ## Installation
