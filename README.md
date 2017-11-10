@@ -78,8 +78,9 @@ like this:
     
 2. Notification of block/ban by e-mail:
 
-To use notification by e-mail configure \Yii::$app->mailer.
-All parameters without `mails` are optional.
+    To use notification by e-mail configure `\Yii::$app->mailer.`
+
+    All parameters without `mails` are optional.
 
     ```php
     'components' => [
