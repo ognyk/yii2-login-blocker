@@ -1,12 +1,12 @@
 {
     "name" : "ognyk/yii2-login-blocker",
     "type" : "yii2-extension",
-    "description" : "Blocked/Ban login for few minutes after 3 wrong login times.",
+    "description" : "Block/ban login for few minutes after 3 wrong login times.",
     "license": "MIT",
     "authors": [
         {
             "name": "Bartosz Lewandowski",
-            "email": "ognykb@gmail.com"
+            "email": "ognyk.github@gmail.com"
         }
     ],
     "keywords" : [
