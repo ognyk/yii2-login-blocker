@@ -53,6 +53,18 @@ class LoginBlocker extends Component
     private $mail_sender_mail = 'no-reply@mail.com';
     
     /**
+     * Database name
+     * @var string
+     */
+    private $database_name = null;
+    
+    /**
+     * List of database columns
+     * @var array
+     */
+    private $database_columns = [];
+    
+    /**
      * Implement parameters
      * @param array $params
      */
@@ -78,6 +90,12 @@ class LoginBlocker extends Component
         }
         if (isset($params['mail']['sender']['mail'])) {
             $this->mail_sender_mail = $params['mail']['sender']['mail'];
+        }
+        if (isset($params['database']['name'])) {
+            $this->database_name = $params['database']['name'];
+        }
+        if (isset($params['database']['columns'])) {
+            $this->database_columns = $params['database']['columns'];
         }
     }
     
@@ -118,13 +136,16 @@ class LoginBlocker extends Component
         
         if ($blocker) {
             if (time() < $blocker[1]) {
-                // Send mails
-                if ($blocker[2] == 0 && count($this->mails) > 0) {
+                if ($blocker[2] == 0) {
                     $time = $blocker[1] - time();
                     $blocker[2] = 1;
                     
-                    Yii::$app->cache->set('login_blocker_' . $this->getIp(), $blocker, $time);
+                    \Yii::$app->cache->set('login_blocker_' . $this->getIp(), $blocker, $time);
                     
+                    // Insert to database
+                    $this->insertToDatabase($params);
+                    
+                    // Send mails
                     $this->sendMails($params);
                 }
                 
@@ -172,6 +193,36 @@ class LoginBlocker extends Component
                 ->setTo($mail)
                 ->setSubject($subject)
                 ->send();
+        }
+    }
+    
+    /**
+     * Insert result to database
+     * 
+     * @param array $params
+     */
+    private function insertToDatabase($params = [])
+    {
+        if ($this->database_name && count($this->database_columns) > 0) {
+            $table_values = [];
+            $table_params = [];
+            
+            foreach ($params as $key => $param) {
+                $table_params['{params.' . $key . '}'] = $param;
+            }
+            
+            foreach ($this->database_columns as $key => $value) {
+                $value = str_replace('{ip}', $this->getIp(), $value);
+                $value = str_replace('{date}', date('Y-m-d H:i:s'), $value);
+                
+                if(isset($table_params[$value])) {
+                    $value = str_replace($value, $table_params[$value], $value);
+                }
+                
+                $table_values[$key] = $value;
+            }
+            
+            \Yii::$app->db->createCommand()->insert($this->database_name, $table_values)->execute();
         }
     }
 }

@@ -78,7 +78,7 @@ like this:
     
 2. Notification of block/ban by e-mail:
 
-    To use notification by e-mail configure `\Yii::$app->mailer.`
+    To use notification by e-mail configure `\Yii::$app->mailer`.
 
     All parameters without `mails` are optional.
 
@@ -115,3 +115,28 @@ like this:
     
     \Yii::$app->loginBlocker->check($params)
     ``` 
+    
+4. Insert result to database:
+
+    To use database configure `\Yii::$app->db`.
+
+    You can easily add custom parameters f.e. {params.Username} or {params.Server}.
+    
+    Example of database table you can find in migrations folder.
+
+    ```php
+    'components' => [
+        'loginBlocker' => [
+            'class' => '\ognyk\loginblocker\LoginBlocker',
+            'database' => [
+                'name' => 'Login_blocker',
+                'columns' =>  [
+                    'ip' => '{ip}',
+                    'created_datetime' => '{date}',
+                    'username' => '{params.Username}', // More parameters from point 3
+                ]
+            ]
+        ]
+    ]
+    ```
+    
