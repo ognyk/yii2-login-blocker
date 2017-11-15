@@ -35,9 +35,10 @@ class LoginBlocker extends Component
      * Mail content
      * Mark {ip} will be replace by user IP
      * Mark {date} will be replace by date
+     * Mark {params} will be replace by user custom params
      * @var string
      */
-    private $mail_content = '<b>LoginBlocker</b><br/>User IP: {ip}<br/>Date: {date}';
+    private $mail_content = '<b>LoginBlocker</b><br/>User IP: {ip}<br/>Date: {date}<br/>{params}';
     
     /**
      * Sender name
@@ -105,11 +106,13 @@ class LoginBlocker extends Component
     }
     
     /**
+     *
      * Check if user can login
      * 
+     * @param array $params     Custom array params f.e. ['Username' => 'Cesar V']
      * @return boolean
      */
-    public function check()
+    public function check($params = [])
     {
         $blocker = Yii::$app->cache->get('login_blocker_' . $this->getIp());
         
@@ -122,7 +125,7 @@ class LoginBlocker extends Component
                     
                     Yii::$app->cache->set('login_blocker_' . $this->getIp(), $blocker, $time);
                     
-                    $this->sendMails();
+                    $this->sendMails($params);
                 }
                 
                 return false;
@@ -146,12 +149,20 @@ class LoginBlocker extends Component
     
     /**
      * Send mails
+     * 
+     * @param array $params     Custom array params f.e. ['Username' => 'Cezar V']
      */
-    private function sendMails()
+    private function sendMails($params = [])
     {
+        $params_string = '';
+        foreach ($params as $key => $param) {
+            $params_string .= $key . ': ' . $param . '<br/>';
+        }
+        
         $subject = str_replace('{ip}', $this->getIp(), $this->mail_subject);
         $content = str_replace('{ip}', $this->getIp(), $this->mail_content);
         $content = str_replace('{date}', date('Y-m-d H:i:s'), $content);
+        $content = str_replace('{params}', $params_string, $content);
         
         foreach($this->mails as $mail) {
             \Yii::$app->mailer->compose()

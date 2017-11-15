@@ -62,7 +62,7 @@ like this:
     }
     ```
 
-## Advance config
+## Advanced config
 
 1. More parameters:
 
@@ -88,7 +88,7 @@ like this:
             'class' => '\ognyk\loginblocker\LoginBlocker',
             'mail' => [
                 'subject' => 'New subject with user IP {ip}',
-                'content' => 'User IP {ip}<br>Date: {date}',
+                'content' => 'User IP {ip}<br>Date: {date}<b>{params}',
                 'sender' => [
                     'name' => 'Cezar II',
                     'mail' => 'mail@mail.com',
@@ -101,4 +101,17 @@ like this:
             ]
         ]
     ]
-    ```  
+    ```
+    
+3. More information from login action:
+
+    You can pass custom params to your alert e-mail.
+    
+    ```php
+    $params = [
+        'Username' => 'Cezar V',
+        'Server' => 'torr-2378-45'
+    ];
+    
+    \Yii::$app->loginBlocker->check($params)
+    ``` 
